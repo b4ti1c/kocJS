@@ -14,6 +14,18 @@ goog.inherits(koc.base.View, koc.base.EventTarget);
 
 
 /**
+ * Retrieves the html element, captured in a string using a synchronous http request from the localhost.
+ * This method gets obscure when production mode (in grunt) is enabled.
+ * @expose
+ */
+koc.base.View.$getHtmlSync = function(url){
+	if(!window.cordova) return $.ajax({type: "GET", url: url, async: false}).responseText;
+	else return $.ajax({type: "GET", url: window.location + '/..' + url, async: false}).responseText;
+};
+
+
+
+/**
  * The name of the element in DOM and should be overriden by the implementer
  * @protected
  */
@@ -26,16 +38,6 @@ koc.base.View.prototype.name = 'default-view';
  * @protected
  */
 koc.base.View.prototype.template = koc.base.View.$getHtmlSync('/lib/kocJS/base/DefaultTemplate.html');
-
-
-/**
- * Retrieves the html element, captured in a string using a synchronous http request from the localhost.
- * This method gets obscure when production mode (in grunt) is enabled.
- * @expose
- */
-koc.base.View.$getHtmlSync = function(url){
-	return $.ajax({type: "GET", url: url, async: false}).responseText;
-};
 
 
 /**
